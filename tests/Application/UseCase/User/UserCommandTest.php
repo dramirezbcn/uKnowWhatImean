@@ -4,6 +4,7 @@ namespace Tests\Application\UseCase\User;
 
 use Application\UseCase\User\Request\CreateUserRequest;
 use Application\UseCase\User\UserCommand;
+use Application\UseCase\User\UserQuery;
 use Domain\User\Model\User;
 use Infrastructure\UserBundle\Factory\UserFactory;
 use Infrastructure\UserBundle\Repository\UserRepository;
@@ -23,6 +24,9 @@ class UserCommandTest extends KernelTestCase
     /** @var UserRepository $userRepositoryMock */
     private $userRepositoryMock;
 
+    /** @var UserQuery $userQueryMock */
+    private $userQueryMock;
+
     protected function setUp()
     {
         self::bootKernel();
@@ -30,6 +34,8 @@ class UserCommandTest extends KernelTestCase
         $this->userMock = \Mockery::mock(User::class)
             ->shouldReceive('getName')
             ->andReturn('nameTest')
+            ->shouldReceive('getId')
+            ->andReturn(1)
             ->getMock();
 
         $this->userFactoryMock = \Mockery::mock(UserFactory::class)
@@ -43,12 +49,17 @@ class UserCommandTest extends KernelTestCase
             ->shouldReceive('delete')
             ->andReturn(true)
             ->getMock();
+
+        $this->userQueryMock = \Mockery::mock(UserQuery::class)
+            ->shouldReceive('getUser')
+            ->andReturn($this->userMock)
+            ->getMock();
+
+        $this->userCommand = new UserCommand($this->userFactoryMock, $this->userRepositoryMock, $this->userQueryMock);
     }
 
     public function testCommandCreate()
     {
-        $this->userCommand = new UserCommand($this->userFactoryMock, $this->userRepositoryMock);
-
         $createUserRequest = new CreateUserRequest('nameTest');
 
         $storedUser = $this->userCommand->create($createUserRequest);
@@ -58,8 +69,6 @@ class UserCommandTest extends KernelTestCase
 
     public function testCommandDelete()
     {
-        $this->userCommand = new UserCommand($this->userFactoryMock, $this->userRepositoryMock);
-
         $deleted = $this->userCommand->delete($this->userMock->getId());
 
         self::assertTrue($deleted);
