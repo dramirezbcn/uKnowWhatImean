@@ -46,9 +46,8 @@ class UserCommand
     public function create(CreateUserRequest $createUserRequest): User
     {
         $user = $this->userFactory->create($createUserRequest->getName());
-        $this->userRepository->store($user);
 
-        return $user;
+        return $this->userRepository->store($user);
     }
 
     /**
@@ -58,6 +57,7 @@ class UserCommand
     public function delete(int $userId): bool
     {
         $user = $this->userQuery->getUser($userId);
+
         return $this->userRepository->delete($user);
     }
 }

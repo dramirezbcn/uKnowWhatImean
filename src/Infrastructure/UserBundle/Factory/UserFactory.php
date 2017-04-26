@@ -16,11 +16,6 @@ class UserFactory implements UserFactoryInterface
      */
     public function create(string $name): User
     {
-        return \Mockery::mock(User::class)
-            ->shouldReceive('getName')
-            ->andReturn($name)
-            ->shouldReceive('getId')
-            ->andReturn(1)
-            ->getMock();
+        return new User($name);
     }
 }
