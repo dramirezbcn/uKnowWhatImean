@@ -1,0 +1,6 @@
+services:
+    user.use_case.user_command:
+        class: Application\UseCase\User\UserCommand
+        arguments:
+          - '@user.factory.user'
+          - '@user.repository.user'
