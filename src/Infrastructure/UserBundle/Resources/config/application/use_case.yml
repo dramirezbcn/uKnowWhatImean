@@ -4,3 +4,9 @@ services:
         arguments:
           - '@user.factory.user'
           - '@user.repository.user'
+          - '@user.use_case.user_query'
+
+    user.use_case.user_query:
+        class: Application\UseCase\User\UserQuery
+        arguments:
+          - '@user.repository.user'

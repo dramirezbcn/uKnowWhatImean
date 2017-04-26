@@ -1,0 +1,3 @@
+services:
+    game.repository.game:
+        class: Infrastructure\GameBundle\Repository\GameRepository

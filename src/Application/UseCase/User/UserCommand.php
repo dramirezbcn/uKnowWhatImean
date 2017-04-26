@@ -19,15 +19,24 @@ class UserCommand
     /** @var UserRepositoryInterface  */
     private $userRepository;
 
+    /** @var UserQuery  */
+    private $userQuery;
+
     /**
      * UserCommand constructor.
      * @param UserFactoryInterface $userFactory
      * @param UserRepositoryInterface $userRepository
+     * @param UserQuery $userQuery
      */
-    public function __construct(UserFactoryInterface $userFactory, UserRepositoryInterface $userRepository)
+    public function __construct(
+        UserFactoryInterface $userFactory,
+        UserRepositoryInterface $userRepository,
+        UserQuery $userQuery
+    )
     {
         $this->userFactory = $userFactory;
         $this->userRepository = $userRepository;
+        $this->userQuery = $userQuery;
     }
 
     /**
@@ -48,7 +57,7 @@ class UserCommand
      */
     public function delete(int $userId): bool
     {
-        $user = $this->userRepository->getUser($userId);
+        $user = $this->userQuery->getUser($userId);
         return $this->userRepository->delete($user);
     }
 }

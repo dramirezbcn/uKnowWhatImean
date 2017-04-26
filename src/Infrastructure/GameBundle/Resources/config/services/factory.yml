@@ -1,0 +1,4 @@
+services:
+    game.factory.game:
+        class: Infrastructure\GameBundle\Factory\GameFactory
+

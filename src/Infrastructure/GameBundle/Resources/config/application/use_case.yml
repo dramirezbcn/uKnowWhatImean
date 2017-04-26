@@ -1,0 +1,7 @@
+services:
+    game.use_case.game_command:
+        class: Application\UseCase\Game\GameCommand
+        arguments:
+          - '@game.factory.game'
+          - '@game.repository.game'
+          - '@user.use_case.user_query'
