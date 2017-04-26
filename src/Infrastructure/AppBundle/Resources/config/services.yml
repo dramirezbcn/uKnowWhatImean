@@ -1,0 +1,6 @@
+imports:
+  - {resource: 'application/use_case.yml'}
+  - {resource: 'services/services.yml'}
+  - {resource: 'services/factory.yml' }
+  - {resource: 'services/repository.yml' }
+  - {resource: 'services/forms.yml'}
