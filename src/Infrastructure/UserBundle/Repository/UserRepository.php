@@ -18,7 +18,9 @@ class UserRepository implements UserRepositoryInterface
     {
         return \Mockery::mock(User::class)
             ->shouldReceive('getName')
-            ->andReturn('nameTest')
+            ->andReturn($user->getName())
+            ->shouldReceive('getId')
+            ->andReturn(1)
             ->getMock();
     }
 
@@ -29,7 +31,9 @@ class UserRepository implements UserRepositoryInterface
     {
         return \Mockery::mock(User::class)
             ->shouldReceive('getName')
-            ->andReturn('nameTest')
+            ->andReturn('userNameTest')
+            ->shouldReceive('getId')
+            ->andReturn(1)
             ->getMock();
     }
 

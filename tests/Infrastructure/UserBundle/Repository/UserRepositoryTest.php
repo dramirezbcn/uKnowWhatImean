@@ -45,6 +45,6 @@ class UserRepositoryTest extends KernelTestCase
     {
         $user = $this->userRepository->getUser($this->user->getId());
 
-        self::assertEquals($this->user->getName(), $user->getName());
+        self::assertEquals($this->user->getId(), $user->getId());
     }
 }
