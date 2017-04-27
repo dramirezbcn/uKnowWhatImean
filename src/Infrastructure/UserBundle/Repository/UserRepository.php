@@ -17,6 +17,7 @@ class UserRepository implements UserRepositoryInterface
     public function store(User $user): User
     {
         return \Mockery::mock(User::class)
+            ->makePartial()
             ->shouldReceive('getName')
             ->andReturn($user->getName())
             ->shouldReceive('getId')
@@ -30,6 +31,7 @@ class UserRepository implements UserRepositoryInterface
     public function getUser(int $userId): User
     {
         return \Mockery::mock(User::class)
+            ->makePartial()
             ->shouldReceive('getName')
             ->andReturn('userNameTest')
             ->shouldReceive('getId')

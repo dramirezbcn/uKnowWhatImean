@@ -1,0 +1,4 @@
+services:
+    board.factory.board:
+        class: Infrastructure\BoardBundle\Factory\BoardFactory
+

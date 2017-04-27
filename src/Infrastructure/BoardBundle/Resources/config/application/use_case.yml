@@ -1,0 +1,6 @@
+services:
+    board.use_case.board_command:
+        class: Application\UseCase\Board\BoardCommand
+        arguments:
+          - '@board.factory.board'
+          - '@board.repository.board'

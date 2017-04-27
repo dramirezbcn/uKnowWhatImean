@@ -1,0 +1,3 @@
+services:
+    board.repository.board:
+        class: Infrastructure\BoardBundle\Repository\BoardRepository

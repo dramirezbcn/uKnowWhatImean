@@ -2,6 +2,7 @@
 
 namespace Domain\Game\Model;
 
+use Domain\Board\Model\Board;
 use Domain\User\Model\User;
 
 /**
@@ -18,6 +19,9 @@ class Game
     /** @var  User */
     private $secondUser;
 
+    /** @var  Board */
+    private $board;
+
     /** @var  \DateTime */
     private $createdAt;
 
@@ -28,11 +32,13 @@ class Game
      * Game constructor.
      * @param User $firstUser
      * @param User $secondUser
+     * @param Board $board
      */
-    public function __construct(User $firstUser, User $secondUser)
+    public function __construct(User $firstUser, User $secondUser, Board $board)
     {
         $this->firstUser = $firstUser;
         $this->secondUser = $secondUser;
+        $this->board = $board;
         $this->createdAt = new \DateTime();
     }
 
@@ -58,6 +64,14 @@ class Game
     public function getSecondUser(): User
     {
         return $this->secondUser;
+    }
+
+    /**
+     * @return Board
+     */
+    public function getBoard(): Board
+    {
+        return $this->board;
     }
 
     /**

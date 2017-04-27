@@ -8,10 +8,10 @@ namespace Application\UseCase\Game\Request;
  */
 class CreateGameRequest
 {
-    /** @var  string */
+    /** @var  int */
     private $firstUser;
 
-    /** @var  string */
+    /** @var  int */
     private $secondUser;
 
     /**
@@ -26,17 +26,17 @@ class CreateGameRequest
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function getFirstUser(): string
+    public function getFirstUser(): int
     {
         return $this->firstUser;
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function getSecondUser(): string
+    public function getSecondUser(): int
     {
         return $this->secondUser;
     }

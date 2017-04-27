@@ -2,6 +2,7 @@
 
 namespace Tests\Infrastructure\GameBundle\Repository;
 
+use Domain\Board\Model\Board;
 use Domain\Game\Model\Game;
 use Domain\User\Model\User;
 use Infrastructure\GameBundle\Repository\GameRepository;
@@ -20,6 +21,9 @@ class GameRepositoryTest extends KernelTestCase
 
     /** @var Game $gameMock */
     private $gameMock;
+
+    /** @var Board $boardMock */
+    private $boardMock;
 
     protected function setUp()
     {
@@ -41,6 +45,13 @@ class GameRepositoryTest extends KernelTestCase
             ->andReturn(2)
             ->getMock();
 
+        $this->boardMock = \Mockery::mock(Board::class)
+            ->shouldReceive('getBoardPositions')
+            ->andReturn(array(array()))
+            ->shouldReceive('getId')
+            ->andReturn(1)
+            ->getMock();
+
         $this->gameMock = \Mockery::mock(Game::class)
             ->shouldReceive('getFirstUser')
             ->andReturn($this->firstUserMock)
@@ -48,6 +59,8 @@ class GameRepositoryTest extends KernelTestCase
             ->andReturn($this->secondUserMock)
             ->shouldReceive('getId')
             ->andReturn(1)
+            ->shouldReceive('getBoard')
+            ->andReturn($this->boardMock)
             ->getMock();
     }
 
@@ -55,8 +68,9 @@ class GameRepositoryTest extends KernelTestCase
     {
         $storedGame = $this->gameRepository->store($this->gameMock);
 
-        self::assertEquals($this->gameMock->getFirstUser(), $storedGame->getFirstUser());
-        self::assertEquals($this->gameMock->getSecondUser(), $storedGame->getSecondUser());
+        self::assertEquals($this->gameMock->getFirstUser()->getName(), $storedGame->getFirstUser()->getName());
+        self::assertEquals($this->gameMock->getSecondUser()->getName(), $storedGame->getSecondUser()->getName());
+        self::assertEquals($this->gameMock->getBoard()->getId(), $storedGame->getBoard()->getId());
     }
 
     public function testRepositoryGetGame()
