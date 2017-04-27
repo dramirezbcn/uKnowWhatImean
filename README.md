@@ -14,8 +14,12 @@ Usage
 -----
 
 1. Clone the Project.
+```
+git clone git@github.com:dramirezbcn/uKnowWhatImean.git
+```
 2. Copy /etc/development/docker-compose.yml.dist to project root removing .dist extension.
 ```
+cd uKnowWhatImean
 cp etc/development/docker-compose.yml.dist docker-compose.yml
 ```
 3. Start containers using: 
@@ -29,7 +33,7 @@ docker ps
 
 5. Access to php-fpm:
 ```
-docker exec -it app_dev_fpm  bash
+docker exec -it app_dev_fpm bash
 ```
 
 6. Install dependencies:
