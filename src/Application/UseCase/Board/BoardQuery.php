@@ -2,6 +2,7 @@
 
 namespace Application\UseCase\Board;
 
+use Domain\Board\Exception\BoardNotFoundException;
 use Domain\Board\Model\Board;
 use Domain\Board\Repository\BoardRepositoryInterface;
 
@@ -15,7 +16,7 @@ class BoardQuery
     private $boardRepository;
 
     /**
-     * BoardCommand constructor.
+     * BoardQuery constructor.
      * @param BoardRepositoryInterface $boardRepository
      */
     public function __construct(BoardRepositoryInterface $boardRepository)
@@ -26,9 +27,16 @@ class BoardQuery
     /**
      * @param int $boardId
      * @return Board
+     * @throws BoardNotFoundException
      */
     public function getBoard(int $boardId): Board
     {
-        return $this->boardRepository->getBoard($boardId);
+        $board = $this->boardRepository->getBoard($boardId);
+
+        if (null === $board) {
+            throw new BoardNotFoundException($boardId);
+        }
+
+        return $board;
     }
 }

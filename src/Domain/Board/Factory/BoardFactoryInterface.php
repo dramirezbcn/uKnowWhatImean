@@ -11,7 +11,8 @@ use Domain\Board\Model\Board;
 interface BoardFactoryInterface
 {
     /**
+     * @param int $boardSize
      * @return Board
      */
-    public function create(): Board;
+    public function create(int $boardSize): Board;
 }

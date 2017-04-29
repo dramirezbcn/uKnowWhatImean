@@ -2,6 +2,9 @@
 
 namespace Infrastructure\UserBundle\Repository;
 
+use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMInvalidArgumentException;
 use Domain\User\Model\User;
 use Domain\User\Repository\UserRepositoryInterface;
 
@@ -9,41 +12,35 @@ use Domain\User\Repository\UserRepositoryInterface;
  * Class UserRepository
  * @package Infrastructure\UserBundle\Repository
  */
-class UserRepository implements UserRepositoryInterface
+class UserRepository extends EntityRepository implements UserRepositoryInterface
 {
     /**
      * @inheritDoc
+     * @throws ORMInvalidArgumentException|OptimisticLockException
      */
     public function store(User $user): User
     {
-        return \Mockery::mock(User::class)
-            ->makePartial()
-            ->shouldReceive('getName')
-            ->andReturn($user->getName())
-            ->shouldReceive('getId')
-            ->andReturn(1)
-            ->getMock();
+        $this->getEntityManager()->persist($user);
+        $this->getEntityManager()->flush();
+
+        return $user;
     }
 
     /**
      * @inheritDoc
      */
-    public function getUser(int $userId): User
+    public function getUser(int $userId)
     {
-        return \Mockery::mock(User::class)
-            ->makePartial()
-            ->shouldReceive('getName')
-            ->andReturn('userNameTest')
-            ->shouldReceive('getId')
-            ->andReturn(1)
-            ->getMock();
+        return $this->find($userId);
     }
 
     /**
      * @inheritDoc
+     * @throws ORMInvalidArgumentException|OptimisticLockException
      */
-    public function delete(User $user): bool
+    public function remove(User $user)
     {
-        return true;
+        $this->getEntityManager()->remove($user);
+        $this->getEntityManager()->flush();
     }
 }

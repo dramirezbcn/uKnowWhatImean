@@ -18,13 +18,12 @@ interface UserRepositoryInterface
 
     /**
      * @param int $userId
-     * @return User
+     * @return User|null
      */
-    public function getUser(int $userId): User;
+    public function getUser(int $userId);
 
     /**
      * @param User $user
-     * @return bool
      */
-    public function delete(User $user): bool ;
+    public function remove(User $user);
 }

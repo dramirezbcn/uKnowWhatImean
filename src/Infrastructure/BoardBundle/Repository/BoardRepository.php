@@ -2,6 +2,9 @@
 
 namespace Infrastructure\BoardBundle\Repository;
 
+use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMInvalidArgumentException;
 use Domain\Board\Model\Board;
 use Domain\Board\Repository\BoardRepositoryInterface;
 
@@ -9,37 +12,25 @@ use Domain\Board\Repository\BoardRepositoryInterface;
  * Class BoardRepository
  * @package Infrastructure\BoardBundle\Repository
  */
-class BoardRepository implements BoardRepositoryInterface
+class BoardRepository extends EntityRepository implements BoardRepositoryInterface
 {
     /**
      * @inheritDoc
+     * @throws ORMInvalidArgumentException|OptimisticLockException
      */
     public function store(Board $board): Board
     {
-        return \Mockery::mock(Board::class)
-            ->makePartial()
-            ->shouldReceive('getBoardPositions')
-            ->andReturn(array(array()))
-            ->shouldReceive('getId')
-            ->andReturn(1)
-            ->shouldReceive('setMovement')
-            ->andReturn(null)
-            ->getMock();
+        $this->getEntityManager()->persist($board);
+        $this->getEntityManager()->flush();
+
+        return $board;
     }
 
     /**
      * @inheritDoc
      */
-    public function getBoard(int $boardId): Board
+    public function getBoard(int $boardId)
     {
-        return \Mockery::mock(Board::class)
-            ->makePartial()
-            ->shouldReceive('getBoardPositions')
-            ->andReturn(array(array()))
-            ->shouldReceive('getId')
-            ->andReturn(1)
-            ->shouldReceive('setMovement')
-            ->andReturn(null)
-            ->getMock();
+        return $this->find($boardId);
     }
 }

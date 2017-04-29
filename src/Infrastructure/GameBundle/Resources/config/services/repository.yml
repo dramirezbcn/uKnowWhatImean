@@ -1,3 +1,6 @@
 services:
     game.repository.game:
         class: Infrastructure\GameBundle\Repository\GameRepository
+        parent: common.repository.abstract
+        arguments:
+            - Domain\Game\Model\Game

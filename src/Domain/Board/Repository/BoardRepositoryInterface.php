@@ -18,7 +18,7 @@ interface BoardRepositoryInterface
 
     /**
      * @param int $boardId
-     * @return Board
+     * @return Board|null
      */
-    public function getBoard(int $boardId): Board;
+    public function getBoard(int $boardId);
 }

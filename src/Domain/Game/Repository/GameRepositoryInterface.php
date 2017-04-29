@@ -18,7 +18,7 @@ interface GameRepositoryInterface
 
     /**
      * @param int $gameId
-     * @return Game
+     * @return Game|null
      */
-    public function getGame(int $gameId): Game;
+    public function getGame(int $gameId);
 }

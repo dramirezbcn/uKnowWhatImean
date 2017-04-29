@@ -2,6 +2,7 @@
 
 namespace Application\UseCase\Game;
 
+use Domain\Game\Exception\GameNotFoundException;
 use Domain\Game\Model\Game;
 use Domain\Game\Repository\GameRepositoryInterface;
 
@@ -15,7 +16,7 @@ class GameQuery
     private $gameRepository;
 
     /**
-     * GameCommand constructor.
+     * GameQuery constructor.
      * @param GameRepositoryInterface $gameRepository
      */
     public function __construct(GameRepositoryInterface $gameRepository)
@@ -26,9 +27,16 @@ class GameQuery
     /**
      * @param int $gameId
      * @return Game
+     * @throws GameNotFoundException
      */
     public function getGame(int $gameId): Game
     {
-        return $this->gameRepository->getGame($gameId);
+        $game = $this->gameRepository->getGame($gameId);
+
+        if (null === $game) {
+            throw new GameNotFoundException($gameId);
+        }
+
+        return $game;
     }
 }

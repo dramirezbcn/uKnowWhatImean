@@ -16,7 +16,7 @@ class PingController extends Controller
      * @Route("/ping", name="homepage")
      * @return JsonResponse
      */
-    public function getAction()
+    public function getAction(): JsonResponse
     {
         return new JsonResponse('pong');
     }

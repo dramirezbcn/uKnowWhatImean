@@ -2,6 +2,7 @@
 
 namespace Application\UseCase\User;
 
+use Domain\User\Exception\UserNotFoundException;
 use Domain\User\Model\User;
 use Domain\User\Repository\UserRepositoryInterface;
 
@@ -15,7 +16,7 @@ class UserQuery
     private $userRepository;
 
     /**
-     * UserCommand constructor.
+     * UserQuery constructor.
      * @param UserRepositoryInterface $userRepository
      */
     public function __construct(UserRepositoryInterface $userRepository)
@@ -25,10 +26,17 @@ class UserQuery
 
     /**
      * @param int $userId
-     * @return User
+     * @return User|null
+     * @throws UserNotFoundException
      */
-    public function getUser(int $userId): User
+    public function getUser(int $userId)
     {
-        return $this->userRepository->getUser($userId);
+        $user = $this->userRepository->getUser($userId);
+
+        if (null === $user) {
+            throw new UserNotFoundException($userId);
+        }
+
+        return $user;
     }
 }

@@ -1,3 +1,6 @@
 services:
     board.repository.board:
         class: Infrastructure\BoardBundle\Repository\BoardRepository
+        parent: common.repository.abstract
+        arguments:
+          - Domain\Board\Model\Board

@@ -3,6 +3,7 @@
 namespace Application\UseCase\User;
 
 use Application\UseCase\User\Request\CreateUserRequest;
+use Domain\User\Exception\UserNotFoundException;
 use Domain\User\Factory\UserFactoryInterface;
 use Domain\User\Model\User;
 use Domain\User\Repository\UserRepositoryInterface;
@@ -13,13 +14,13 @@ use Domain\User\Repository\UserRepositoryInterface;
  */
 class UserCommand
 {
-    /** @var UserFactoryInterface  */
+    /** @var UserFactoryInterface */
     private $userFactory;
 
-    /** @var UserRepositoryInterface  */
+    /** @var UserRepositoryInterface */
     private $userRepository;
 
-    /** @var UserQuery  */
+    /** @var UserQuery */
     private $userQuery;
 
     /**
@@ -52,12 +53,12 @@ class UserCommand
 
     /**
      * @param int $userId
-     * @return bool
+     * @throws UserNotFoundException
      */
-    public function delete(int $userId): bool
+    public function delete(int $userId)
     {
         $user = $this->userQuery->getUser($userId);
 
-        return $this->userRepository->delete($user);
+        $this->userRepository->remove($user);
     }
 }

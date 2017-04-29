@@ -5,4 +5,10 @@ services:
           - '@game.factory.game'
           - '@game.repository.game'
           - '@user.use_case.user_query'
-          - '@board.factory.board'
+          - '@board.use_case.board_command'
+          - '@game.use_case.game_query'
+
+    game.use_case.game_query:
+            class: Application\UseCase\Game\GameQuery
+            arguments:
+              - '@game.repository.game'

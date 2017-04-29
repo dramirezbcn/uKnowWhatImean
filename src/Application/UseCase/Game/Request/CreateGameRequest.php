@@ -14,15 +14,20 @@ class CreateGameRequest
     /** @var  int */
     private $secondUser;
 
+    /** @var  int */
+    private $boardSize;
+
     /**
      * CreateGameRequest constructor.
      * @param int $firstUser
      * @param int $secondUser
+     * @param int $boardSize
      */
-    public function __construct(int $firstUser, int $secondUser)
+    public function __construct(int $firstUser, int $secondUser, int $boardSize = 3)
     {
         $this->firstUser = $firstUser;
         $this->secondUser = $secondUser;
+        $this->boardSize = $boardSize;
     }
 
     /**
@@ -39,5 +44,13 @@ class CreateGameRequest
     public function getSecondUser(): int
     {
         return $this->secondUser;
+    }
+
+    /**
+     * @return int
+     */
+    public function getBoardSize(): int
+    {
+        return $this->boardSize;
     }
 }

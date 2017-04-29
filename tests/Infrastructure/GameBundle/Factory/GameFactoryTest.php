@@ -2,6 +2,7 @@
 
 namespace Tests\Infrastructure\GameBundle\Repository;
 
+use Application\UseCase\User\Request\CreateUserRequest;
 use Domain\Board\Model\Board;
 use Domain\User\Model\User;
 use Infrastructure\GameBundle\Factory\GameFactory;
@@ -16,49 +17,26 @@ class GameFactoryTest extends KernelTestCase
     /** @var  GameFactory */
     private $gameFactory;
 
-    /** @var User $firstUserMock */
-    private $firstUserMock;
-
-    /** @var User $secondUserMock */
-    private $secondUserMock;
-
-    /** @var Board $boardMock */
-    private $boardMock;
-
     protected function setUp()
     {
         self::bootKernel();
-
-        $this->firstUserMock = \Mockery::mock(User::class)
-            ->shouldReceive('getName')
-            ->andReturn('firstUserNameTest')
-            ->shouldReceive('getId')
-            ->andReturn(1)
-            ->getMock();
-
-        $this->secondUserMock = \Mockery::mock(User::class)
-            ->shouldReceive('getName')
-            ->andReturn('secondUserNameTest')
-            ->shouldReceive('getId')
-            ->andReturn(2)
-            ->getMock();
-
-        $this->boardMock = \Mockery::mock(Board::class)
-            ->shouldReceive('getBoardPositions')
-            ->andReturn(array(array()))
-            ->shouldReceive('getId')
-            ->andReturn(1)
-            ->getMock();
 
         $this->gameFactory = static::$kernel->getContainer()->get('game.factory.game');
     }
 
     public function testFactory()
     {
-        $createdGame = $this->gameFactory->create($this->firstUserMock, $this->secondUserMock, $this->boardMock);
+        $userCommand = static::$kernel->getContainer()->get('user.use_case.user_command');
+        $user1 = $userCommand->create(new CreateUserRequest('userNameTest1'));
+        $user2 = $userCommand->create(new CreateUserRequest('userNameTest2'));
 
-        self::assertEquals($this->firstUserMock, $createdGame->getFirstUser());
-        self::assertEquals($this->secondUserMock, $createdGame->getSecondUser());
-        self::assertEquals($this->boardMock, $createdGame->getBoard());
+        $boardCommand = static::$kernel->getContainer()->get('board.use_case.board_command');
+        $board = $boardCommand->create(3);
+
+        $createdGame = $this->gameFactory->create($user1, $user2, $board);
+
+        self::assertEquals($user1, $createdGame->getFirstUser());
+        self::assertEquals($user2, $createdGame->getSecondUser());
+        self::assertEquals($board, $createdGame->getBoard());
     }
 }

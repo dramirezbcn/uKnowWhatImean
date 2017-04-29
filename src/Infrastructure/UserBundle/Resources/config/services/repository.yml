@@ -1,3 +1,9 @@
 services:
     user.repository.user:
         class: Infrastructure\UserBundle\Repository\UserRepository
+        parent: common.repository.abstract
+        arguments:
+          - Domain\User\Model\User
+
+
+

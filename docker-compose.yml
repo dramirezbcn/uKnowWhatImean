@@ -20,6 +20,8 @@ services:
     container_name: app_dev_fpm
     ports:
       - "2222:22"
+    depends_on:
+      - mysql
     volumes:
       - ~/.ssh:/root/.ssh
       - .:/app

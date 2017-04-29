@@ -36,9 +36,14 @@ docker ps
 docker exec -it app_dev_fpm bash
 ```
 
-6. Install dependencies:
+6. Install dependencies (inside fpm):
 ```
 composer install
+```
+
+7. Create and initialize database(inside fpm):
+```
+nuke
 ```
 
 Troubleshooting
@@ -52,26 +57,30 @@ Symfony Commands
 -----
 - Create User
 ```
-php bin/console app:create-user 'Test'
+php7.0 bin/console app:create-user 'Test'
 ```
-- Delete User
+- Create a new game
 ```
-php bin/console app:delete-user 1
-```
-- Start a new game
-```
-php bin/console app:start-new-game 1 2
+php7.0 bin/console app:create-new-game 1 2
 ```
 - Make a move
 ```
-php bin/console app:make-move 1 2 2 X 1
+php7.0 bin/console app:make-move 1 2 2 X 1
 ```
 - Check a winner
 ```
-php bin/console app:check-winner 1
+php7.0 bin/console app:check-winner 1
+```
+- Delete User
+```
+php7.0 bin/console app:delete-user 1
+```
+- Start interactive game
+```
+php7.0 bin/console app:start
 ```
 Running Tests
 -----
 ```
-php /app/vendor/phpunit/phpunit/phpunit --configuration /app/phpunit.xml.dist /app/tests
+php7.0 /app/vendor/phpunit/phpunit/phpunit --configuration /app/phpunit.xml.dist /app/tests
 ```

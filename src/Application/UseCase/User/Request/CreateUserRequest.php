@@ -27,5 +27,4 @@ class CreateUserRequest
     {
         return $this->name;
     }
-
 }

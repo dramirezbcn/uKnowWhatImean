@@ -14,8 +14,8 @@ class BoardFactory implements BoardFactoryInterface
     /**
      * @inheritDoc
      */
-    public function create(): Board
+    public function create(int $boardSize): Board
     {
-        return new Board();
+        return new Board($boardSize);
     }
 }

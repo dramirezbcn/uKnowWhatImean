@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+        http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity name="Domain\Game\Model\Game" table="game" repository-class="Infrastructure\GameBundle\Repository\GameRepository">
+
+        <id name="id" type="integer">
+            <generator strategy="AUTO" />
+        </id>
+
+        <field name="createdAt" type="datetime" nullable="false"/>
+        <field name="updatedAt" type="datetime" nullable="true" />
+
+        <many-to-one field="firstUser" target-entity="Domain\User\Model\User">
+            <join-column name="first_user_id" referenced-column-name="id"/>
+        </many-to-one>
+
+        <many-to-one field="secondUser" target-entity="Domain\User\Model\User">
+            <join-column name="second_user_id" referenced-column-name="id"/>
+        </many-to-one>
+
+        <many-to-one field="board" target-entity="Domain\Board\Model\Board">
+            <join-column name="board_id" referenced-column-name="id"/>
+        </many-to-one>
+    </entity>
+</doctrine-mapping>

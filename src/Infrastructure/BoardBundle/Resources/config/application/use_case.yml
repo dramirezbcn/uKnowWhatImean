@@ -4,3 +4,8 @@ services:
         arguments:
           - '@board.factory.board'
           - '@board.repository.board'
+
+    board.use_case.board_query:
+        class: Application\UseCase\Board\BoardQuery
+        arguments:
+          - '@board.repository.board'

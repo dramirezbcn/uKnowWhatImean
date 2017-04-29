@@ -5,13 +5,14 @@ namespace Application\UseCase\Game\Dto;
 use Domain\User\Model\User;
 
 /**
- * Class Movement
+ * Class MovementDto
  */
 class MovementDto
 {
     const
         X = 'X',
-        O = 'O';
+        O = 'O',
+        blank = ' ';
 
     /** @var  int */
     private $positionX;
@@ -26,13 +27,13 @@ class MovementDto
     private $user;
 
     /**
-     * Movement constructor.
+     * MovementDto constructor.
      * @param int $positionX
      * @param int $positionY
      * @param string $type
-     * @param User $user
+     * @param User|null $user
      */
-    public function __construct(int $positionX, int $positionY, string $type, User $user)
+    public function __construct(int $positionX, int $positionY, string $type, User $user = null)
     {
         $this->positionX = $positionX;
         $this->positionY = $positionY;
@@ -65,9 +66,9 @@ class MovementDto
     }
 
     /**
-     * @return User
+     * @return User|null
      */
-    public function getUser(): User
+    public function getUser()
     {
         return $this->user;
     }

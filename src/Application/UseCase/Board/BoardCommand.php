@@ -12,10 +12,10 @@ use Domain\Board\Repository\BoardRepositoryInterface;
  */
 class BoardCommand
 {
-    /** @var BoardFactoryInterface  */
+    /** @var BoardFactoryInterface */
     private $boardFactory;
 
-    /** @var BoardRepositoryInterface  */
+    /** @var BoardRepositoryInterface */
     private $boardRepository;
 
     /**
@@ -23,22 +23,29 @@ class BoardCommand
      * @param BoardFactoryInterface $boardFactory
      * @param BoardRepositoryInterface $boardRepository
      */
-    public function __construct(
-        BoardFactoryInterface $boardFactory,
-        BoardRepositoryInterface $boardRepository
-    )
+    public function __construct(BoardFactoryInterface $boardFactory, BoardRepositoryInterface $boardRepository)
     {
         $this->boardFactory = $boardFactory;
         $this->boardRepository = $boardRepository;
     }
 
     /**
+     * @param int $boardSize
      * @return Board
      */
-    public function create(): Board
+    public function create(int $boardSize): Board
     {
-        $board = $this->boardFactory->create();
+        $board = $this->boardFactory->create($boardSize);
 
+        return $this->boardRepository->store($board);
+    }
+
+    /**
+     * @param Board $board
+     * @return Board
+     */
+    public function update(Board $board): Board
+    {
         return $this->boardRepository->store($board);
     }
 }

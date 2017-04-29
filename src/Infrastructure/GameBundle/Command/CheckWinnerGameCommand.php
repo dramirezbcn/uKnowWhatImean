@@ -2,6 +2,7 @@
 
 namespace Infrastructure\GameBundle\Command;
 
+use Domain\User\Model\User;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -19,14 +20,20 @@ class CheckWinnerGameCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $gameCommand = $this->getContainer()->get('game.use_case.game_command');
+        try {
+            $gameCommand = $this->getContainer()->get('game.use_case.game_command');
 
-        $user = $gameCommand->checkGameWinner($input->getArgument('gameId'));
+            $user = $gameCommand->checkGameWinnerOrOver($input->getArgument('gameId'));
 
-        if(isset($user)) {
-            $output->writeln("There's a winner: " . $user->getName());
-        } else {
-            $output->writeln("There's no winner.");
+            if ($user instanceof User) {
+                $output->writeln("There's a winner: " . $user->getName());
+            } elseif ($user) {
+                $output->writeln("There's no winner. It's a tie.");
+            } else {
+                $output->writeln("There's no winner yet.");
+            }
+        } catch (\Exception $ex) {
+            $output->writeln('Error ' . $ex->getMessage());
         }
     }
 }

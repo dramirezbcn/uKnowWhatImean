@@ -24,27 +24,27 @@ class MakeMovementGameCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $gameCommand = $this->getContainer()->get('game.use_case.game_command');
+        try {
+            $gameCommand = $this->getContainer()->get('game.use_case.game_command');
 
-        $game = $gameCommand->makeMovement(
-            new MovementRequest(
-                $input->getArgument('gameId'),
-                $input->getArgument('positionX'),
-                $input->getArgument('positionY'),
-                $input->getArgument('type'),
-                $input->getArgument('user')
-            )
-        );
+            $game = $gameCommand->makeMovement(
+                new MovementRequest(
+                    $input->getArgument('gameId'),
+                    $input->getArgument('positionX'),
+                    $input->getArgument('positionY'),
+                    $input->getArgument('type'),
+                    $input->getArgument('user')
+                )
+            );
 
-        $output->writeln("You've succesfully make a move.");
-        $output->writeln('Game Id: ' . $game->getId());
-        $output->writeln('Position X: ' . $input->getArgument('positionX'));
-        $output->writeln('Position Y: ' . $input->getArgument('positionY'));
-        $output->writeln('Type: ' . $input->getArgument('type'));
+            $output->writeln("You've succesfully make a move.");
+            $output->writeln('Game Id: ' . $game->getId());
+            $output->writeln('Position X: ' . $input->getArgument('positionX'));
+            $output->writeln('Position Y: ' . $input->getArgument('positionY'));
+            $output->writeln('Type: ' . $input->getArgument('type'));
 
-        if($winnerUser = $gameCommand->checkGameWinner($game->getId()))
-        {
-            $output->writeln('Winner: ' . $winnerUser->getName());
+        } catch (\Exception $ex) {
+            $output->writeln('Error ' . $ex->getMessage());
         }
     }
 }

@@ -11,40 +11,40 @@ class UserRepositoryTest extends KernelTestCase
     /** @var  UserRepository */
     private $userRepository;
 
-    /** @var User $user */
-    private $user;
-
     protected function setUp()
     {
         self::bootKernel();
         $this->userRepository = static::$kernel->getContainer()->get('user.repository.user');
-
-        $this->user = \Mockery::mock(User::class)
-            ->shouldReceive('getName')
-            ->andReturn('nameTest')
-            ->shouldReceive('getId')
-            ->andReturn(1)
-            ->getMock();
     }
 
     public function testRepositoryStore()
     {
-        $storedUser = $this->userRepository->store($this->user);
+        $user = new User('userNameTest');
+        $storedUser = $this->userRepository->store($user);
 
-        self::assertEquals($this->user->getName(), $storedUser->getName());
-    }
-
-    public function testRepositoryDelete()
-    {
-        $deleted = $this->userRepository->delete($this->user);
-
-        self::assertTrue($deleted);
+        self::assertEquals($user->getName(), $storedUser->getName());
     }
 
     public function testRepositoryGetUser()
     {
-        $user = $this->userRepository->getUser($this->user->getId());
+        $user = new User('userNameTest');
+        $storedUser = $this->userRepository->store($user);
 
-        self::assertEquals($this->user->getId(), $user->getId());
+        $userDb = $this->userRepository->getUser($storedUser->getId());
+
+        self::assertEquals($userDb, $user);
+    }
+
+    public function testRepositoryDelete()
+    {
+        $user = new User('userNameTest');
+        $storedUser = $this->userRepository->store($user);
+        $storedUserId = $storedUser->getId();
+
+        $this->userRepository->remove($storedUser);
+
+        $userDb = $this->userRepository->getUser($storedUserId);
+
+        self::assertNull($userDb);
     }
 }
